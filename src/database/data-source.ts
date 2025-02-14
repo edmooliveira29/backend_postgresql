@@ -16,7 +16,8 @@ let MIGRATIONS = [path.join(__dirname, "../database/migrations/*.{ts,js}")];
 let paramsToConect = {}
 if (env.NODE_ENV === "production") {
     const databaseUrl = env.POSTGRES_DATABASE_URL_PRODUCTION;
-
+    console.log(databaseUrl)
+    
     if (!databaseUrl) {
         throw new Error("DATABASE_URL não definida!");
     }
