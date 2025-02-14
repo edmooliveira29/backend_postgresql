@@ -3,24 +3,25 @@
    "version": "0.0.1",
    "description": "Awesome project developed with TypeORM.",
    "type": "commonjs",
-   "homepage": "https://github.com/username/repo-name#readme",
+   "homepage": "https://github.com/edmooliveira29/backend_postgresql",
    "scripts": {
       "start": "NODE_ENV=production nodemon build/index.js",
-      "dev": "NODE_ENV=development nodemon index.ts",
+      "dev": "NODE_ENV=production nodemon index.ts",
       "build": "rimraf build && tsc",
       "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
       "migrations:dev": "NODE_ENV=development typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts",
-      "migrations:production": "NODE_ENV=production typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts"
+      "migrations:production": "NODE_ENV=production typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts",
+      "deploy": "gh-pages -d build"
    },
    "devDependencies": {
       "@types/express": "^5.0.0",
       "@types/node": "^22.13.1",
-      "gh-pages": "^6.3.0",
       "ts-node": "^10.9.2",
       "tsconfig-paths": "^4.2.0",
       "typescript": "^5.7.3"
    },
    "dependencies": {
+      "@supabase/supabase-js": "^2.48.1",
       "dotenv": "^16.4.7",
       "express": "^4.21.2",
       "nodemon": "^3.1.9",
