@@ -1,0 +1,95 @@
+Table users {
+  id int [pk]
+  username varchar
+  password varchar
+  email varchar
+  access_token varchar
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table revenue {
+  id int [pk]
+  created_by int [ref: > users.id]
+  description varchar
+  value decimal
+  date date
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table expenses {
+  id int [pk]
+  created_by int [ref: > users.id] 
+  expenses_groups_id int [ref: > expense_groups.id]
+  category_id int [ref: > categories.id]
+  description varchar
+  value decimal
+  due_date date
+  status varchar
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table categories {
+  id int [pk]
+  created_by int [ref: > users.id] 
+  name varchar
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table credit_cards {
+  id int [pk]
+  created_by int [ref: > users.id]
+  name varchar
+  limit decimal
+  spent_value decimal
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table credit_card_transactions {
+  id int [pk]
+  created_by int [ref: > users.id]
+  credit_card_id int [ref: > credit_cards.id]
+  description varchar  
+  amount decimal   
+  transaction_date timestamp
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table payments {
+  id int [pk]
+  created_by int [ref: > users.id]
+  expense_id int [ref: - expenses.id]
+  payment_date date
+  paid_value decimal
+  payment_method_id int [ref: > payment_methods.id]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table payment_methods {
+  id int [pk]
+  created_by int [ref: > users.id] 
+  name varchar
+  description varchar
+}
+
+Table expense_groups {
+  id int [pk]
+  name varchar
+  created_by int [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
