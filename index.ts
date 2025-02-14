@@ -11,7 +11,7 @@ const PORT_SERVER = env.PORT_BACKEND_EXPRESS
 async function startServer() {
   try {
     await conection.initialize();
-    console.log(`Database connection successfully!!`);
+    console.log(`Database connection successfully in ${env.NODE_ENV}!`);
     app.listen(3000, () =>
       console.log(`Server is running successfully on port ${PORT_SERVER}!`)
     );

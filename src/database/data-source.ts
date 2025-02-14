@@ -26,6 +26,7 @@ if (env.NODE_ENV === "production") {
         logging: false,
         entities: Object.values(entities),
         migrations: MIGRATIONS,
+        ssl: true,
         extra: {
             ssl: {
                 rejectUnauthorized: false,
