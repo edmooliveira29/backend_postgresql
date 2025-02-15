@@ -5,13 +5,12 @@ import { app } from "./src";
 import{env} from 'node:process';
 config()
 
-
 const PORT_SERVER = env.PORT_BACKEND_EXPRESS
 
 async function startServer() {
   try {
     await conection.initialize();
-    console.log(`Database connection successfully in ${env.NODE_ENV}!`);
+    console.log(`Database connection successfully!`);
     app.listen(3000, () =>
       console.log(`Server is running successfully on port ${PORT_SERVER}!`)
     );
