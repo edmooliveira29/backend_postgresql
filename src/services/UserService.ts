@@ -1,5 +1,6 @@
 import { conection } from "../database/data-source";
 import { Users } from "../models";
+import bcrypt from "bcrypt";
 
 export class UserService {
   private repository = conection.getRepository(Users);
@@ -8,14 +9,20 @@ export class UserService {
     if (!email || !this.isValidEmail(email)) {
       throw new Error("E-mail inválido");
     }
-    
+
     const passwordErrors = this.validatePassword(password);
     if (passwordErrors.length > 0) {
       throw new Error(`'Senha inválida: A senha deve ter ${passwordErrors.join(", ")}`);
     }
 
-    const user = await this.repository.save({ name, email, password });
-    return user;
+    const hashedPassword = await bcrypt.hash(password, 10)
+
+    await this.repository.save({
+      name,
+      email,
+      password: hashedPassword
+    });
+    return { message: "Usuário criado com sucesso" };
   }
 
   private isValidEmail(email: string): boolean {
@@ -38,7 +45,7 @@ export class UserService {
       errors.push("pelo menos um número");
     }
     if (!/[@$!%*?&]/.test(password)) {
-      errors.push("pelo menos um caractere especial (@$!%*?&)"); 
+      errors.push("pelo menos um caractere especial (@$!%*?&)");
     }
 
     return errors;
