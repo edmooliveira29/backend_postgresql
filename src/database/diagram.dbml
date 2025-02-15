@@ -3,7 +3,6 @@ Table users {
   username varchar
   password varchar
   email varchar
-  access_token varchar
   created_at timestamp
   updated_at timestamp
   deleted_at timestamp

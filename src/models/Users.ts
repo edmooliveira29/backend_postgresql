@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    CreateDateColumn,
+    UpdateDateColumn,
+    Exclusion
+} from "typeorm";
 
 @Entity()
 export class Users {
@@ -11,11 +18,8 @@ export class Users {
     @Column({ unique: true, length: 255 })
     email: string;
 
-    @Column({ length: 255,  })
+    @Column({ length: 255, })
     password: string;
-
-    @Column({ length: 255, nullable: true })
-    access_token: string | null;
 
     @CreateDateColumn({ type: "timestamptz" })
     created_at: Date;
