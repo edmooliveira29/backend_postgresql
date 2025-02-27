@@ -19,8 +19,6 @@ Este projeto é uma API backend construída com **Node.js, Express e TypeORM**, 
     
 -   **Docker**
     
--   **dotenv** (para variáveis de ambiente)
-    
 -   **Nodemon** (para hot-reload em desenvolvimento)
     
 

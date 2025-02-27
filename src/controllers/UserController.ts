@@ -1,17 +1,19 @@
+// src/controllers/UserController.ts
 import { Request, Response } from "express";
-import { conection } from "../database/data-source";
-import { Users } from "../models/Users";
-import { UserService } from "../services/UserService";
 import { QueryFailedError } from "typeorm";
+import { IUserService } from '../services/User/Interface/IUserService';
 
 export class UserController {
-  private userService = new UserService();
+  private userService: IUserService;
 
-  async createUser(request: Request, response: Response): Promise<void> {
+  constructor(userService: IUserService) {
+    this.userService = userService
+  }
+
+  async create(request: Request, response: Response): Promise<void> {
     try {
-      const { name, email, password } = request.body;
-      const user = await this.userService.createUser(name, email, password);
-
+      const { name, email, password } = request.body
+      const user = await this.userService.create( name, email, password );
       response.status(201).json(user);
     } catch (err) {
       if (err instanceof QueryFailedError &&
@@ -23,14 +25,9 @@ export class UserController {
     }
   }
 
-  async getAllUsers(response: Response): Promise<void> {
+  async getAll(response: Response): Promise<void> {
     try {
-      const repository = conection.getRepository(Users);
-      const users = await repository.find({ order: { name: "ASC" } });
-      if (!users || users.length === 0) {
-        response.status(404).json({ message: "No users found" });
-      }
-
+      const users = await this.userService.getAll();
       response.json(users);
     } catch (err) {
       console.error(err.message);

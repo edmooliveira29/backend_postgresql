@@ -1,28 +1,35 @@
-import { conection } from "../database/data-source";
-import { Users } from "../models";
+// src/services/user/UserService.ts
+
 import bcrypt from "bcrypt";
+import { User } from "../../models";
+import { IUserService } from './Interface/IUserService';
+import { IUserRepository } from '../../repositories/User/interface/IUserRepository';
 
-export class UserService {
-  private repository = conection.getRepository(Users);
+export class UserService implements IUserService {
+  private userRepository: IUserRepository
 
-  async createUser(name: string, email: string, password: string) {
+  constructor(userRepository: IUserRepository) {
+    this.userRepository = userRepository
+  }
+
+  async create(name: string, email: string, password: string) {
     if (!email || !this.isValidEmail(email)) {
       throw new Error("E-mail inválido");
     }
 
     const passwordErrors = this.validatePassword(password);
     if (passwordErrors.length > 0) {
-      throw new Error(`'Senha inválida: A senha deve ter ${passwordErrors.join(", ")}`);
+      throw new Error(`Senha inválida: A senha deve ter ${passwordErrors.join(", ")}`)
     }
 
     const hashedPassword = await bcrypt.hash(password, 10)
+    const user = await this.userRepository.create({ name, email, password: hashedPassword })
 
-    await this.repository.save({
-      name,
-      email,
-      password: hashedPassword
-    });
-    return { message: "Usuário criado com sucesso" };
+    return {
+      email: user.email,
+      id: user.id,
+      name: user.name
+    }
   }
 
   private isValidEmail(email: string): boolean {
@@ -49,5 +56,9 @@ export class UserService {
     }
 
     return errors;
+  }
+
+  async getAll(): Promise<User[]> {
+    return await this.userRepository.getAll();
   }
 }

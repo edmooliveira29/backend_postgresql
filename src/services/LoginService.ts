@@ -1,12 +1,12 @@
 import { conection } from "../database/data-source";
-import { Users } from "../models";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";
+import { User } from '../models';
 config();
 
 export class LoginService {
-  private repository = conection.getRepository(Users)
+  private repository = conection.getRepository(User)
 
   async login(email: string, password: string) {
     const userFind = await this.repository.findOneBy({ email })
