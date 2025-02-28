@@ -18,7 +18,7 @@ export class UserRepository implements IUserRepository {
   async readAll(): Promise<Users[]> {
     const users = await this.userRepository.find(
       {
-        select: ["id", "name", "email"]
+        select: ["id", "name", "email", "created_at", 'updated_at', 'deleted_at']
       }
     )
     return users
