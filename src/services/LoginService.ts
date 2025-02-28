@@ -2,11 +2,12 @@ import { conection } from "../database/data-source";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "dotenv";
-import { User } from '../models';
+import { Users } from '../models';
+import { generateAccessToken } from '../utils/access-token';
 config();
 
 export class LoginService {
-  private repository = conection.getRepository(User)
+  private repository = conection.getRepository(Users)
 
   async login(email: string, password: string) {
     const userFind = await this.repository.findOneBy({ email })
@@ -20,9 +21,8 @@ export class LoginService {
     if (!isPasswordValid) {
       throw new Error("Senha incorreta!");
     }
-
-    const access_token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "7Days" });
-
+    
+    const access_token = generateAccessToken(userFind)
     return {
       id: userFind.id,
       name: userFind.name,
