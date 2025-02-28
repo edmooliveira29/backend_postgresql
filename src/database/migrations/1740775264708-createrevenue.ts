@@ -1,14 +1,11 @@
-import {
-    MigrationInterface,
-    QueryRunner,
-    Table
-} from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class Createuser1738840168856 implements MigrationInterface {
+export class Createrevenue1740775264708 implements MigrationInterface {
+
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "users",
+                name: "revenues",
                 columns: [
                     {
                         name: "id",
@@ -18,23 +15,20 @@ export class Createuser1738840168856 implements MigrationInterface {
                         generationStrategy: "uuid",
                     },
                     {
-                        name: "name",
+                        name: "description",
                         type: "varchar",
                         length: "255",
                         isNullable: false,
                     },
                     {
-                        name: "email",
-                        type: "varchar",
-                        length: "255",
-                        isUnique: true,
+                        name: "value",
+                        type: "decimal",
                         isNullable: false,
                     },
                     {
-                        name: "password",
-                        type: "varchar",
-                        length: "255",
-                        isNullable: false,
+                        name: "date",
+                        type: "timestamptz",
+                        isNullable: true,
                     },
                     {
                         name: "created_at",
@@ -51,15 +45,20 @@ export class Createuser1738840168856 implements MigrationInterface {
                         name: "deleted_at",
                         type: "timestamptz",
                         isNullable: true,
-                    }
-                ],
+                    },
+                    {
+                        name: "created_by",
+                        type: "uuid",
+                        isNullable: false,
+                    },
+                ]
             })
-
         )
+
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("users")
+        await queryRunner.dropTable("revenues")
     }
 
 }
