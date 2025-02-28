@@ -11,6 +11,7 @@ export class LoginController {
       res.status(200).json(user);
     } catch (err) {
       res.status(500).json({ error: err.message })
+      throw new Error(err.message)
     }
   }
 }

@@ -22,6 +22,7 @@ const paramsToConect: DataSourceOptions = {
     password: PASSWORD,
     database: DATABASE,
     logging: false,
+    synchronize: false,
     entities: Object.values(entities),
     migrations: MIGRATIONS,
     extra: {

@@ -1,6 +1,6 @@
-import { User } from '../../../models';
+import { Users } from '../../../models';
 
 export interface IUserRepository {
-  create(userData: Partial<User>): Promise<User>;
-  getAll(): Promise<User[]>
+  create(userData: Partial<Users>): Promise<Users>;
+  getAll(): Promise<Users[]>
 }

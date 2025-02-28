@@ -30,8 +30,8 @@ export class UserController {
       const users = await this.userService.getAll();
       response.json(users);
     } catch (err) {
-      console.error(err.message);
       response.status(500).json({ error: err.message });
+      throw new Error(err);
     }
   }
 }

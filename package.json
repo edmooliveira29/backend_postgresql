@@ -7,8 +7,8 @@
       "start": "nodemon build/index.js",
       "dev": "nodemon index.ts",
       "build": "rimraf build && tsc",
-      "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-      "migrations:dev": "typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts"
+      "migration:run": "typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts",
+      "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/database/data-source.ts"
    },
    "devDependencies": {
       "@types/bcrypt": "^5.0.2",

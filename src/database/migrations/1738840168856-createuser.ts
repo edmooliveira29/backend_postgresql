@@ -15,6 +15,7 @@ export class Createuser1738840168856 implements MigrationInterface {
                         type: "uuid",
                         isPrimary: true,
                         isGenerated: true,
+                        generationStrategy: "uuid",
                     },
                     {
                         name: "name",
@@ -36,15 +37,9 @@ export class Createuser1738840168856 implements MigrationInterface {
                         isNullable: false,
                     },
                     {
-                        name: "access_token",
-                        type: "varchar",
-                        length: "255",
-                        isNullable: false,
-                    },
-                    {
                         name: "created_at",
                         type: "timestamptz",
-                        isNullable: false,
+                        isNullable: true,
                     },
                     {
                         name: "updated_at",
@@ -63,7 +58,7 @@ export class Createuser1738840168856 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.dropTable("users")
+        await queryRunner.dropTable("users")
     }
 
 }

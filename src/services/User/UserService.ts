@@ -1,7 +1,5 @@
-// src/services/user/UserService.ts
-
 import bcrypt from "bcrypt";
-import { User } from "../../models";
+import { Users } from "../../models";
 import { IUserService } from './Interface/IUserService';
 import { IUserRepository } from '../../repositories/User/interface/IUserRepository';
 
@@ -58,7 +56,7 @@ export class UserService implements IUserService {
     return errors;
   }
 
-  async getAll(): Promise<User[]> {
+  async getAll(): Promise<Users[]> {
     return await this.userRepository.getAll();
   }
 }

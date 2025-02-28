@@ -7,10 +7,10 @@ import {
     UpdateDateColumn,
     OneToMany
 } from "typeorm";
-import { Revenue } from './Revenue';
+import { Revenue } from './Revenues';
 
 @Entity()
-export class User {
+export class Users {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
@@ -23,7 +23,7 @@ export class User {
     @Column({ length: 255, })
     password: string;   
 
-    @CreateDateColumn({ type: "timestamptz", nullable: true })
+    @CreateDateColumn({ type: "timestamptz", nullable: true, default: "now()" })
     created_at: Date | null;
 
     @UpdateDateColumn({ type: "timestamptz", nullable: true })
