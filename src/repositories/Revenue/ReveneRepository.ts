@@ -10,7 +10,7 @@ export class RevenueRepository implements IRevenueRepository {
     this.revenueRepository = conection.getRepository(Revenue)
   }
 
-  async create(revenue: Partial<Revenue>): Promise<Revenue> {
+  async create(revenue: Revenue): Promise<Revenue> {
     return await this.revenueRepository.save(revenue);
   }
 
@@ -19,7 +19,7 @@ export class RevenueRepository implements IRevenueRepository {
     return revenue
   }
 
-  async update(revenue: Partial<Revenue>): Promise<Revenue[]> {
+  async update(revenue: Revenue): Promise<Revenue[]> {
     const revenueData = await this.revenueRepository.findBy({ id: revenue.id });
     return await this.revenueRepository.save(revenueData);
   }
@@ -28,7 +28,7 @@ export class RevenueRepository implements IRevenueRepository {
     const revenue = await this.revenueRepository.softDelete({ id })
   }
 
-  async getAll(): Promise<Revenue[]> {
+  async readAll(): Promise<Revenue[]> {
     const revenues = await this.revenueRepository.find()
     return revenues
 

@@ -11,12 +11,11 @@ export class UserRepository implements IUserRepository {
     this.userRepository = conection.getRepository(Users);
   }
 
-  async create(userData: Partial<Users>): Promise<Users> {
-    const user = this.userRepository.create(userData);
+  async create(user: Users): Promise<Users> {
     return await this.userRepository.save(user)
   }
 
-  async getAll(): Promise<Users[]> {
+  async readAll(): Promise<Users[]> {
     const users = await this.userRepository.find(
       {
         select: ["id", "name", "email"]

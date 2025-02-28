@@ -25,9 +25,9 @@ export class UserController {
     }
   }
 
-  async getAll(response: Response): Promise<void> {
+  async readAll(response: Response): Promise<void> {
     try {
-      const users = await this.userService.getAll();
+      const users = await this.userService.readAll();
       response.json(users);
     } catch (err) {
       response.status(500).json({ error: err.message });

@@ -56,7 +56,7 @@ export class UserService implements IUserService {
     return errors;
   }
 
-  async getAll(): Promise<Users[]> {
-    return await this.userRepository.getAll();
+  async readAll(): Promise<Users[]> {
+    return await this.userRepository.readAll();
   }
 }
