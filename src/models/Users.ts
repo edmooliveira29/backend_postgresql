@@ -8,7 +8,7 @@ import {
     OneToMany,
     DeleteDateColumn
 } from "typeorm";
-import { Revenue } from './Revenues';
+import { Revenues } from './Revenues';
 
 @Entity()
 export class Users {
@@ -24,15 +24,15 @@ export class Users {
     @Column({ length: 255, })
     password: string;   
 
-    @CreateDateColumn({ type: "timestamptz", nullable: true, default: "now()" })
+    @CreateDateColumn({ type: "timestamptz" })
     created_at: Date | null;
 
-    @UpdateDateColumn({ type: "timestamptz", nullable: true })
+    @UpdateDateColumn({ type: "timestamptz"})
     updated_at: Date | null;
 
     @DeleteDateColumn({ type: "timestamptz", nullable: true })
     deleted_at: Date | null;
 
-    @OneToMany(() => Revenue, (revenue) => revenue.created_by)
-    revenues: Revenue[];
+    @OneToMany(() => Revenues, (revenue) => revenue.created_by)
+    revenues: Revenues[];
 }
