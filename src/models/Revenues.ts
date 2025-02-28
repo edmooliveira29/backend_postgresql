@@ -5,7 +5,7 @@ import { Users } from './Users';
 @Entity()
 export class Revenue {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column({ length: 255 })
   description: string;
