@@ -1,4 +1,3 @@
-// src/controllers/UserController.ts
 import { Request, Response } from "express";
 import { QueryFailedError } from "typeorm";
 import { IUserService } from '../services/User/Interface/IUserService';

@@ -1,7 +1,6 @@
-import bcrypt from "bcrypt";
 import { IRevenueService } from './Interface/IRepositoryService';
+import { Revenues } from '../../models';
 import { IRevenueRepository } from '../../repositories/Revenue/interface/IRevenueRepository';
-import { Revenue } from '../../models';
 
 export class RevenueService implements IRevenueService {
   private revenueRepository: IRevenueRepository
@@ -10,29 +9,26 @@ export class RevenueService implements IRevenueService {
     this.revenueRepository = revenueRepository
   }
 
-  async create(revenue: Revenue): Promise<Revenue> {
+  async create(revenue: Revenues): Promise<Revenues> {
     const revenueRepository = await this.revenueRepository.create(revenue)
     return revenueRepository
   }
 
-  async read(id: string): Promise<Revenue> {
+  async read(id: string): Promise<Revenues> {
     const revenue = await this.revenueRepository.read(id)
     return revenue
   }
 
-  async update(revenue: Revenue): Promise<Revenue[]> {
+  async update(revenue: Revenues): Promise<Revenues | null> {
     const revenueRepository = await this.revenueRepository.update(revenue)
     return revenueRepository
   }
 
-  async delete(id: string): Promise<{ message: string }> {
-    await this.revenueRepository.delete(id)
-    return {
-      message: "Receita deletada com sucesso!"
-    }
+  async delete(id: string): Promise<{ deleted: number } | null> {
+    return await this.revenueRepository.delete(id)
   }
 
-  async readAll(): Promise<Revenue[]> {
+  async readAll(): Promise<Revenues[]> {
     const revenues = await this.revenueRepository.readAll()
     return revenues
   }
