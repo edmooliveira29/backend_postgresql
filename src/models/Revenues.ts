@@ -1,5 +1,5 @@
 // src/models/Revenue.ts
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm"
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 import { Users } from './Users';
 
 @Entity()
@@ -16,13 +16,13 @@ export class Revenue {
   @Column({ type: "timestamptz" })
   date: Date | null;
 
-  @CreateDateColumn({ type: "timestamptz" })
+  @CreateDateColumn({ type: "timestamptz", nullable: true, default: "now()" })
   created_at: Date | null;
 
-  @CreateDateColumn({ type: "timestamptz" })
+  @UpdateDateColumn({ type: "timestamptz" })
   updated_at: Date | null;
 
-  @CreateDateColumn({ type: "timestamptz" })
+  @DeleteDateColumn({ type: "timestamptz" })
   deleted_at: Date | null;
 
   @ManyToOne(() => Users, (user) => user.revenues, { onDelete: "CASCADE" })

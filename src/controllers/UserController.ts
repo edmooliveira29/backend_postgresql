@@ -31,7 +31,6 @@ export class UserController {
       response.json(users);
     } catch (err) {
       response.status(500).json({ error: err.message });
-      throw new Error(err);
     }
   }
 }

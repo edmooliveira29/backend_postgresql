@@ -5,7 +5,8 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    OneToMany
+    OneToMany,
+    DeleteDateColumn
 } from "typeorm";
 import { Revenue } from './Revenues';
 
@@ -29,7 +30,7 @@ export class Users {
     @UpdateDateColumn({ type: "timestamptz", nullable: true })
     updated_at: Date | null;
 
-    @Column({ type: "timestamptz", nullable: true })
+    @DeleteDateColumn({ type: "timestamptz", nullable: true })
     deleted_at: Date | null;
 
     @OneToMany(() => Revenue, (revenue) => revenue.created_by)
