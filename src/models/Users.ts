@@ -9,6 +9,7 @@ import {
     DeleteDateColumn
 } from "typeorm";
 import { Revenues } from './Revenues';
+import { CreditCards } from './CreditCards';
 
 @Entity()
 export class Users {
@@ -22,12 +23,12 @@ export class Users {
     email: string;
 
     @Column({ length: 255, })
-    password: string;   
+    password: string;
 
     @CreateDateColumn({ type: "timestamptz" })
     created_at: Date | null;
 
-    @UpdateDateColumn({ type: "timestamptz"})
+    @UpdateDateColumn({ type: "timestamptz" })
     updated_at: Date | null;
 
     @DeleteDateColumn({ type: "timestamptz", nullable: true })
@@ -35,4 +36,7 @@ export class Users {
 
     @OneToMany(() => Revenues, (revenue) => revenue.created_by)
     revenues: Revenues[];
+
+    @OneToMany(() => CreditCards, (credit_cards) => credit_cards.created_by)
+    credit_cards: CreditCards[]
 }
