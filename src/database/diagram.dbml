@@ -43,7 +43,7 @@ Table categories {
 }
 
 Table credit_cards {
-  id int [pk#]
+  id int [pk]
   created_by int [ref: > users.id]
   name varchar
   limit decimal
