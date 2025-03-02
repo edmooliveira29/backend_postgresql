@@ -22,7 +22,7 @@ export class CreditCardController {
       const { id } = request.params;
       const CreditCard = await this.CreditCardService.read(id);
       if (!CreditCard) {
-        response.status(404).json({ message: "Cartão de crédito não encontrado" })
+        response.status(404).json({ error: "Cartão de crédito não encontrado" })
       } else {
         response.json(CreditCard);
       }
@@ -35,9 +35,8 @@ export class CreditCardController {
     try {
       const CreditCard = await this.CreditCardService.update(request.body);
       if (!CreditCard) {
-        response.status(404).json({ message: "Receita não encontrada" })
+        response.status(404).json({ error: "Receita não encontrada" })
       } else {
-
         response.json({
           message: "Receita atualizada com sucesso!",
           CreditCard
@@ -53,7 +52,7 @@ export class CreditCardController {
       const { id } = request.params;
       const CreditCardDeleted = await this.CreditCardService.delete(id);
       if (!CreditCardDeleted) {
-        response.status(404).json({ message: "Receita nao encontrada" })
+        response.status(404).json({ error: "Receita nao encontrada" })
       } else {
         response.json({
           message: "Receita excluida com sucesso!"
@@ -67,7 +66,10 @@ export class CreditCardController {
 
   async readAll(request: Request, response: Response): Promise<void> {
     try {
-      const CreditCards = await this.CreditCardService.readAll();
+      const userId = request.headers["user-id"] as string;
+
+      console.log(userId)
+      const CreditCards = await this.CreditCardService.readAll(userId);
       response.json(CreditCards);
     } catch (err) {
       response.status(500).json({ error: err.message });

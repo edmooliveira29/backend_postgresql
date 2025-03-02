@@ -23,7 +23,7 @@ export class RevenueController {
       const { id } = request.params;
       const revenue = await this.revenueService.read(id);
       if (!revenue) {
-        response.status(404).json({ message: "Receita nao encontrada" })
+        response.status(404).json({ error: "Receita nao encontrada" })
       } else {
         response.json(revenue);
       }
@@ -36,7 +36,7 @@ export class RevenueController {
     try {
       const revenue = await this.revenueService.update(request.body);
       if (!revenue) {
-        response.status(404).json({ message: "Receita não encontrada" })
+        response.status(404).json({ error: "Receita não encontrada" })
       } else {
 
         response.json({
@@ -52,9 +52,10 @@ export class RevenueController {
   async delete(request: Request, response: Response): Promise<void> {
     try {
       const { id } = request.params;
+      
       const revenueDeleted = await this.revenueService.delete(id);
       if (!revenueDeleted) {
-        response.status(404).json({ message: "Receita nao encontrada" })
+        response.status(404).json({ error: "Receita nao encontrada" })
       } else {
         response.json({
           message: "Receita excluida com sucesso!"
@@ -68,7 +69,7 @@ export class RevenueController {
 
   async readAll(request: Request, response: Response): Promise<void> {
     try {
-      const revenues = await this.revenueService.readAll();
+      const revenues = await this.revenueService.readAll(request.params.created_by);
       response.json(revenues);
     } catch (err) {
       response.status(500).json({ error: err.message });

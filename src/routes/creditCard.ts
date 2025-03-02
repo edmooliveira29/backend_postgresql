@@ -14,6 +14,6 @@ creditCard.post("/credit-card", verifyToken,(req, res) => creditCardController.c
 creditCard.get("/credit-card/:id", verifyToken, (req, res) => creditCardController.read(req, res));
 creditCard.put("/credit-card", verifyToken, (req, res) => creditCardController.update(req, res));
 creditCard.delete("/credit-card/:id", verifyToken, (req, res) => creditCardController.delete(req, res));
-creditCard.get("/credit-cards", verifyToken, (req, res) => creditCardController.readAll(req, res));
+creditCard.get("/credit-cards/:created_by", verifyToken, (req, res) => creditCardController.readAll(req, res));
 
 export default creditCard;

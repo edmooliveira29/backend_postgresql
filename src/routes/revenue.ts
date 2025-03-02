@@ -14,6 +14,6 @@ revenue.post("/revenue", verifyToken,(req, res) => revenueController.create(req,
 revenue.get("/revenue/:id", verifyToken, (req, res) => revenueController.read(req, res));
 revenue.put("/revenue", verifyToken, (req, res) => revenueController.update(req, res));
 revenue.delete("/revenue/:id", verifyToken, (req, res) => revenueController.delete(req, res));
-revenue.get("/revenues", verifyToken, (req, res) => revenueController.readAll(req, res));
+revenue.get("/revenues/:created_by", verifyToken, (req, res) => revenueController.readAll(req, res));
 
 export default revenue;

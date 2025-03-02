@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Users } from './Users';
+import { CreditCardsTransactions } from './CreditCardsTransactions';
 
 @Entity()
 export class CreditCards {
@@ -40,4 +41,7 @@ export class CreditCards {
   @ManyToOne(() => Users, (user) => user.credit_cards, { onDelete: "CASCADE" })
   @JoinColumn({ name: "created_by" })
   created_by: Users
+
+  @OneToMany(() => CreditCardsTransactions, (transaction) => transaction.credit_card_id)
+  transactions: CreditCards[]
 }

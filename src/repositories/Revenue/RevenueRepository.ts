@@ -16,7 +16,6 @@ export class RevenueRepository implements IRevenueRepository {
 
   async read(id: string): Promise<Revenues> {
     const revenue = await this.revenueRepository.findOneBy({ id })
-    console.log(revenue)
     return revenue
   }
 
@@ -37,7 +36,6 @@ export class RevenueRepository implements IRevenueRepository {
       where: { id },
       withDeleted: true,
     });
-
     if (!revenue || revenue.deleted_at) {
       return null
     } else {
@@ -47,10 +45,16 @@ export class RevenueRepository implements IRevenueRepository {
     }
   }
 
-
-  async readAll(): Promise<Revenues[]> {
-    const revenues = await this.revenueRepository.find()
+  async readAll(created_by: string): Promise<Revenues[]> {
+    const revenues = await this.revenueRepository.find({
+      where: {
+        created_by: {
+          id: created_by
+        }
+      },
+      relations: ['created_by'], 
+      select: ["created_at", 'updated_at', 'deleted_at', 'id', 'description', 'value', 'date', 'created_by']
+    })
     return revenues
-
   }
 } 

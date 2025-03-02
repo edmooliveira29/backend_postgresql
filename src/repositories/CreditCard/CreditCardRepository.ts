@@ -46,8 +46,21 @@ export class CreditCardsRepository implements ICreditCardRepository {
     }
   }
 
-  async readAll(): Promise<CreditCards[]> {
-    const CreditCards = await this.creditCardRepository.find()
-    return CreditCards
+  async readAll(created_by: string): Promise<CreditCards[]> {
+    if(created_by === undefined){
+      throw new Error('created_by is undefined')
+    }
+    
+    const creditCards = await this.creditCardRepository.find({
+      where: {
+        created_by: {
+          id: created_by
+        }
+      },
+      relations: ['created_by'],
+      select: ["created_at", 'updated_at', 'deleted_at', 'id', "limit", 'total_spent', 'name', 'transactions', 'created_by']
+    })
+    console.log(creditCards)
+    return creditCards
   }
 }

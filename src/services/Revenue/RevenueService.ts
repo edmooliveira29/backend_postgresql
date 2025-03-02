@@ -28,8 +28,16 @@ export class RevenueService implements IRevenueService {
     return await this.revenueRepository.delete(id)
   }
 
-  async readAll(): Promise<Revenues[]> {
-    const revenues = await this.revenueRepository.readAll()
+  async readAll(created_by: string): Promise<Revenues[]> {
+    const revenues = await this.revenueRepository.readAll(created_by)
+    revenues.forEach(revenue => {
+      if (revenue.created_by) {
+        delete revenue.created_by.password
+        delete revenue.created_by.created_at
+        delete revenue.created_by.updated_at
+        delete revenue.created_by.deleted_at
+      }
+    })
     return revenues
   }
 }

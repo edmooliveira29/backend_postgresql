@@ -5,31 +5,39 @@ import { ICreditCardRepository } from '../../repositories/CreditCard/interface/I
 export class CreditCardService implements ICreditCardService {
   private creditCardRepository: ICreditCardRepository
 
-  constructor(CreditCardRepository: ICreditCardRepository) {
-    this.creditCardRepository = CreditCardRepository
+  constructor(creditCardRepository: ICreditCardRepository) {
+    this.creditCardRepository = creditCardRepository
   }
 
   async create(CreditCard: CreditCards): Promise<CreditCards> {
-    const CreditCardRepository = await this.creditCardRepository.create(CreditCard)
-    return CreditCardRepository
+    const creditCardRepository = await this.creditCardRepository.create(CreditCard)
+    return creditCardRepository
   }
 
   async read(id: string): Promise<CreditCards> {
-    const CreditCard = await this.creditCardRepository.read(id)
-    return CreditCard
+    const creditCard = await this.creditCardRepository.read(id)
+    return creditCard
   }
 
   async update(CreditCard: CreditCards): Promise<CreditCards | null> {
-    const CreditCardRepository = await this.creditCardRepository.update(CreditCard)
-    return CreditCardRepository
+    const creditCardRepository = await this.creditCardRepository.update(CreditCard)
+    return creditCardRepository
   }
 
   async delete(id: string): Promise<{ deleted: number } | null> {
     return await this.creditCardRepository.delete(id)
   }
 
-  async readAll(): Promise<CreditCards[]> {
-    const CreditCards = await this.creditCardRepository.readAll()
-    return CreditCards
+  async readAll(created_by: string): Promise<CreditCards[]> {
+    const creditCards = await this.creditCardRepository.readAll(created_by)
+    creditCards.forEach(revenue => {
+      if (revenue.created_by) {
+        delete revenue.created_by.password
+        delete revenue.created_by.created_at
+        delete revenue.created_by.updated_at
+        delete revenue.created_by.deleted_at
+      }
+    })
+    return creditCards
   }
 }
