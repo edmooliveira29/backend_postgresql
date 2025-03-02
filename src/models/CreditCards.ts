@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Users } from './Users';
 
 @Entity()
@@ -25,5 +25,6 @@ export class CreditCards {
   created_at: Date | null
 
   @ManyToOne(() => Users, (user) => user.credit_cards, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "created_by" })
   created_by: Users
 }

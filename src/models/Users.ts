@@ -37,6 +37,6 @@ export class Users {
     @OneToMany(() => Revenues, (revenue) => revenue.created_by)
     revenues: Revenues[];
 
-    @OneToMany(() => CreditCards, (credit_cards) => credit_cards.created_by)
+    @OneToMany(() => CreditCards, (credit_card) => credit_card.created_by)
     credit_cards: CreditCards[]
 }
