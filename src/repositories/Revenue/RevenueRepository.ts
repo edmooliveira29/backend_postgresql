@@ -1,4 +1,4 @@
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { conection } from '../../database/data-source';
 import { Revenues } from '../../models';
 import { IRevenueRepository } from './interface/IRevenueRepository';
