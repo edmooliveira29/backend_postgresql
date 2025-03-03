@@ -47,10 +47,10 @@ export class CreditCardsTransactionRepository implements ICreditCardTransactionR
   }
 
   async readAll(created_by: string): Promise<CreditCardTransactions[]> {
-    if(created_by === undefined){
+    if (created_by === undefined) {
       throw new Error('created_by is undefined')
     }
-    
+
     const CreditCardsTransactions = await this.creditCardTransactionRepository.find({
       where: {
         created_by: {
@@ -58,8 +58,15 @@ export class CreditCardsTransactionRepository implements ICreditCardTransactionR
         }
       },
       relations: ['created_by'],
-      select: ["created_at", 'updated_at', 'deleted_at', 'id', 'amount', 'transaction_date','description', 'created_by']
+      select: ["created_at", 'updated_at', 'deleted_at', 'id', 'amount', 'transaction_date', 'description', 'created_by']
     })
     return CreditCardsTransactions
+  }
+
+  readAllByCreditCard(credit_card_id: string): Promise<CreditCardTransactions[]> {
+    return this.creditCardTransactionRepository.find({
+      where: { credit_card_id: {id: credit_card_id} },
+      relations: ["credit_card_id"],
+    });
   }
 }

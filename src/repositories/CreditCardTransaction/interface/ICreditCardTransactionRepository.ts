@@ -6,4 +6,5 @@ export interface ICreditCardTransactionRepository {
   update(creditCard: CreditCardTransactions): Promise<CreditCardTransactions | null>
   delete(id: string): Promise<{ deleted: number } | null>
   readAll(created_by: string): Promise<CreditCardTransactions[]>
+  readAllByCreditCard(id_credit_card: string): Promise<CreditCardTransactions[]>
 }

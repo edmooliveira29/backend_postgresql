@@ -15,7 +15,10 @@ export class CreditCardsRepository implements ICreditCardRepository {
   }
 
   async read(id: string): Promise<CreditCards> {
-    const creditCard = await this.creditCardRepository.findOneBy({ id })
+    const creditCard = await this.creditCardRepository.findOne({ 
+      where: { id }, 
+      relations: ['created_by'],
+      select: ['id', "name", "total_spent", "created_by"] });
     return creditCard
   }
 

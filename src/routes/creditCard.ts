@@ -3,11 +3,13 @@ import { CreditCardsRepository } from '../repositories/CreditCard/CreditCardRepo
 import { verifyToken } from '../utils/access-token';
 import { CreditCardService } from '../services/CreditCard/CreditCardService';
 import { CreditCardController } from '../controllers/CreditCardController';
+import { CreditCardsTransactionRepository } from '../repositories/CreditCardTransaction/CreditCardTransactionRepository';
 
 const creditCard: Router = Router();
 
 const creditCardRepository = new CreditCardsRepository()
-const creditCardService = new CreditCardService(creditCardRepository)
+const creditCardTransactionRepository = new CreditCardsTransactionRepository()
+const creditCardService = new CreditCardService(creditCardRepository, creditCardTransactionRepository)
 const creditCardController = new CreditCardController(creditCardService)
 
 creditCard.post("/credit-card", verifyToken,(req, res) => creditCardController.create(req, res));
