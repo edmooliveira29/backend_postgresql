@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Users } from './Users';
-import { CreditCardsTransactions } from './CreditCardsTransactions';
+import { CreditCardTransactions } from './CreditCardsTransactions';
 
 @Entity()
 export class CreditCards {
@@ -42,6 +42,6 @@ export class CreditCards {
   @JoinColumn({ name: "created_by" })
   created_by: Users
 
-  @OneToMany(() => CreditCardsTransactions, (transaction) => transaction.credit_card_id)
+  @OneToMany(() => CreditCardTransactions, (transaction) => transaction.credit_card_id)
   transactions: CreditCards[]
 }

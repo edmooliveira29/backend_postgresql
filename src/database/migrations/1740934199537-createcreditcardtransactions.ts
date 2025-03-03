@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class Createcreditcardtransactions1740934199537 implements MigrationInterface {
-    name = 'Createcreditcardtransactions1740934199537'
+export class CreditCardTransactions1740934199537 implements MigrationInterface {
+    name = 'CreateCreditCardTransactions1740934199537'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -85,9 +85,26 @@ export class Createcreditcardtransactions1740934199537 implements MigrationInter
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropForeignKey("credit_card_transactions", "created_by");
-        await queryRunner.dropForeignKey("credit_card_transactions", "credit_card_id");
-        await queryRunner.dropTable("credit_card_transactions")
+        const table = await queryRunner.getTable("credit_card_transactions");
+    
+        const createdByForeignKey = table?.foreignKeys.find(
+            fk => fk.columnNames.includes("created_by")
+        );
+    
+        const creditCardForeignKey = table?.foreignKeys.find(
+            fk => fk.columnNames.includes("credit_card_id")
+        );
+    
+        if (createdByForeignKey) {
+            await queryRunner.dropForeignKey("credit_card_transactions", createdByForeignKey);
+        }
+    
+        if (creditCardForeignKey) {
+            await queryRunner.dropForeignKey("credit_card_transactions", creditCardForeignKey);
+        }
+    
+        await queryRunner.dropTable("credit_card_transactions");
     }
+    
 
 }

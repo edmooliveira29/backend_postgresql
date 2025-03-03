@@ -1,25 +1,25 @@
 import { Repository } from 'typeorm';
 import { ICreditCardTransactionRepository } from './interface/ICreditCardTransactionRepository';
 import { conection } from '../../database/data-source';
-import { CreditCardsTransactions } from '../../models';
+import { CreditCardTransactions } from '../../models';
 
 export class CreditCardsTransactionRepository implements ICreditCardTransactionRepository {
-  private creditCardTransactionRepository: Repository<CreditCardsTransactions>;
+  private creditCardTransactionRepository: Repository<CreditCardTransactions>;
 
   constructor() {
-    this.creditCardTransactionRepository = conection.getRepository(CreditCardsTransactions);
+    this.creditCardTransactionRepository = conection.getRepository(CreditCardTransactions);
   }
 
-  async create(creditCard: CreditCardsTransactions): Promise<CreditCardsTransactions> {
+  async create(creditCard: CreditCardTransactions): Promise<CreditCardTransactions> {
     return await this.creditCardTransactionRepository.save(creditCard);
   }
 
-  async read(id: string): Promise<CreditCardsTransactions> {
+  async read(id: string): Promise<CreditCardTransactions> {
     const creditCard = await this.creditCardTransactionRepository.findOneBy({ id })
     return creditCard
   }
 
-  async update(creditCard: CreditCardsTransactions): Promise<CreditCardsTransactions | null> {
+  async update(creditCard: CreditCardTransactions): Promise<CreditCardTransactions | null> {
     const existingcreditCard = await this.creditCardTransactionRepository.findOne({ where: { id: creditCard.id } });
     if (!existingcreditCard || !creditCard.id) {
       return null;
@@ -46,12 +46,12 @@ export class CreditCardsTransactionRepository implements ICreditCardTransactionR
     }
   }
 
-  async readAll(created_by: string): Promise<CreditCardsTransactions[]> {
+  async readAll(created_by: string): Promise<CreditCardTransactions[]> {
     if(created_by === undefined){
       throw new Error('created_by is undefined')
     }
     
-    const creditCardsTransactions = await this.creditCardTransactionRepository.find({
+    const CreditCardsTransactions = await this.creditCardTransactionRepository.find({
       where: {
         created_by: {
           id: created_by
@@ -60,6 +60,6 @@ export class CreditCardsTransactionRepository implements ICreditCardTransactionR
       relations: ['created_by'],
       select: ["created_at", 'updated_at', 'deleted_at', 'id', 'amount', 'transaction_date','description', 'created_by']
     })
-    return creditCardsTransactions
+    return CreditCardsTransactions
   }
 }

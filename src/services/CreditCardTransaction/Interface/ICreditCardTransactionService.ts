@@ -1,9 +1,9 @@
-import { CreditCardsTransactions } from '../../../models'
+import { CreditCardTransactions } from '../../../models'
 
-export interface ICreditCardTransactionService {
-  create(revenue: CreditCardsTransactions): Promise<CreditCardsTransactions>
-  read(id: string): Promise<CreditCardsTransactions>
-  update(revenue: CreditCardsTransactions): Promise<CreditCardsTransactions | null>
+export interface ICreditCardsTransactionService {
+  create(revenue: CreditCardTransactions): Promise<CreditCardTransactions>
+  read(id: string): Promise<CreditCardTransactions>
+  update(revenue: CreditCardTransactions): Promise<CreditCardTransactions | null>
   delete(id: string): Promise<{ deleted: number } | null>
-  readAll(created_by: string): Promise<CreditCardsTransactions[]>
+  readAll(created_by: string): Promise<CreditCardTransactions[]>
 }

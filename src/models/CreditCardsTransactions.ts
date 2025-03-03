@@ -3,7 +3,7 @@ import { Users } from './Users';
 import { CreditCards } from './CreditCards';
 
 @Entity()
-export class CreditCardsTransactions {
+export class CreditCardTransactions {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
