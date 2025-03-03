@@ -35,10 +35,10 @@ export class CreditCardController {
     try {
       const CreditCard = await this.CreditCardService.update(request.body);
       if (!CreditCard) {
-        response.status(404).json({ error: "Receita não encontrada" })
+        response.status(404).json({ error: "Cartão de crédito não encontrada" })
       } else {
         response.json({
-          message: "Receita atualizada com sucesso!",
+          message: "Cartão de crédito atualizada com sucesso!",
           CreditCard
         });
       }
@@ -52,10 +52,10 @@ export class CreditCardController {
       const { id } = request.params;
       const CreditCardDeleted = await this.CreditCardService.delete(id);
       if (!CreditCardDeleted) {
-        response.status(404).json({ error: "Receita nao encontrada" })
+        response.status(404).json({ error: "Cartão de crédito nao encontrada" })
       } else {
         response.json({
-          message: "Receita excluida com sucesso!"
+          message: "Cartão de crédito excluido com sucesso!"
         })
       }
     } catch (err) {
