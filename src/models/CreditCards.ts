@@ -12,6 +12,7 @@ export class CreditCards {
 
   @Column({
     type: "decimal",
+    scale: 2,
     transformer: {
       to: (value: number) => value,
       from: (value: string) => Number(value),
@@ -21,6 +22,7 @@ export class CreditCards {
 
   @Column({
     type: "decimal",
+    scale: 2,
     transformer: {
       to: (value: number) => value,
       from: (value: string) => Number(value),

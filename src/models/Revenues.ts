@@ -11,6 +11,7 @@ export class Revenues {
 
   @Column({
     type: "decimal",
+    scale: 2,
     transformer: {
       to: (value: number) => value,
       from: (value: string) => Number(value),
