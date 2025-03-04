@@ -7,8 +7,8 @@ export class CreditCardTransactions {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ length: 255 })
-  description: string;
+  @Column({ length: 255, nullable: true })
+  description?: string;
 
   @Column({
     type: "decimal",
@@ -32,11 +32,11 @@ export class CreditCardTransactions {
   @DeleteDateColumn({ type: "timestamptz", nullable: true })
   deleted_at: Date | null
 
-  @ManyToOne(() => Users, (user) => user.credit_cards, { onDelete: "CASCADE" })
+  @ManyToOne(() => Users, (user) => user.credit_cards)
   @JoinColumn({ name: "created_by" })
   created_by: Users
 
-  @ManyToOne(() => CreditCards, (credit_card) => credit_card.transactions, { onDelete: "CASCADE" })
-  @JoinColumn({ name: "credit_card_id" })
-  credit_card_id: CreditCards
+  @ManyToOne(() => CreditCards, (credit_card) => credit_card.transactions)
+  @JoinColumn({ name: "credit_card" })
+  credit_card: CreditCards
 }

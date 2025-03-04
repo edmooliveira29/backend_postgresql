@@ -40,10 +40,10 @@ export class CreditCards {
   @DeleteDateColumn({ type: "timestamptz", nullable: true })
   deleted_at: Date | null
 
-  @ManyToOne(() => Users, (user) => user.credit_cards, { onDelete: "CASCADE" })
+  @ManyToOne(() => Users, (user) => user.credit_cards)
   @JoinColumn({ name: "created_by" })
   created_by: Users
 
-  @OneToMany(() => CreditCardTransactions, (transaction) => transaction.credit_card_id)
-  transactions: CreditCards[]
+  @OneToMany(() => CreditCardTransactions, (transaction) => transaction.credit_card)
+  transactions: CreditCardTransactions[]
 }

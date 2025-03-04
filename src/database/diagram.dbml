@@ -56,7 +56,7 @@ Table credit_cards {
 Table credit_card_transactions {
   id int [pk]
   created_by int [ref: > users.id]
-  credit_card_id int [ref: > credit_cards.id]
+  credit_card int [ref: > credit_cards.id]
   description varchar  
   amount decimal   
   transaction_date timestamp
