@@ -21,22 +21,14 @@ Table revenue {
 
 Table expenses {
   id int [pk]
-  created_by int [ref: > users.id] 
-  expenses_groups_id int [ref: > expense_groups.id]
-  category_id int [ref: > categories.id]
   description varchar
   value decimal
+  limit decimal
+  remaining_balance decimal
   due_date date
-  status varchar
-  created_at timestamp
-  updated_at timestamp
-  deleted_at timestamp
-}
-
-Table categories {
-  id int [pk]
+  spending_status ENUM('OK', 'ATTENTION', 'CRITICAL')
+  expenses_groups int [ref: > expense_groups.id]
   created_by int [ref: > users.id] 
-  name varchar
   created_at timestamp
   updated_at timestamp
   deleted_at timestamp
@@ -67,11 +59,11 @@ Table credit_card_transactions {
 
 Table payments {
   id int [pk]
-  created_by int [ref: > users.id]
-  expense_id int [ref: - expenses.id]
-  payment_date date
   paid_value decimal
-  payment_method_id int [ref: > payment_methods.id]
+  payment_date date
+  created_by int [ref: > users.id]
+  expenses int [ref: - expenses.id]
+  payment_method int [ref: > payment_methods.id]
   created_at timestamp
   updated_at timestamp
   deleted_at timestamp
@@ -87,7 +79,20 @@ Table payment_methods {
 Table expense_groups {
   id int [pk]
   name varchar
+  total_spent decimal
   created_by int [ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+  deleted_at timestamp
+}
+
+Table financial_summary {
+  id int [pk]
+  total_revenue decimal
+  created_by int [ref: > users.id]
+  total_expenses decimal
+  remaining_balance decimal
+  summary_date timestamp
   created_at timestamp
   updated_at timestamp
   deleted_at timestamp
