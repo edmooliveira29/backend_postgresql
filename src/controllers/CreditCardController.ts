@@ -53,10 +53,10 @@ export class CreditCardController {
       const { id } = request.params;
       const CreditCardDeleted = await this.creditCardService.delete(id);
       if (!CreditCardDeleted) {
-        response.status(404).json({ error: "Cartão de crédito nao encontrada" })
+        response.status(404).json({ error: "Cartão de crédito nao encontrado" })
       } else {
         response.json({
-          message: "Cartão de crédito excluido com sucesso!"
+          message: "Cartão de crédito e suas transações excluidas com sucesso!"
         })
       }
     } catch (err) {

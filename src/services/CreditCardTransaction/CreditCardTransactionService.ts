@@ -1,16 +1,19 @@
 import { CreditCardTransactions } from '../../models';
+import { ICreditCardRepository } from '../../repositories/CreditCard/interface/ICreditCardRepository';
 import { ICreditCardTransactionRepository } from '../../repositories/CreditCardTransaction/interface/ICreditCardTransactionRepository';
 import { ICreditCardsTransactionService } from './Interface/ICreditCardTransactionService';
 
-export class CreditCardsTransactionService implements ICreditCardsTransactionService  {
+export class CreditCardsTransactionService implements ICreditCardsTransactionService {
   private creditCardTransactionRepository: ICreditCardTransactionRepository
-
-  constructor(creditCardTransactionRepository: ICreditCardTransactionRepository) {
+  private creditCardRepository: ICreditCardRepository
+  constructor(creditCardTransactionRepository: ICreditCardTransactionRepository, creditCardRepository: ICreditCardRepository) {
     this.creditCardTransactionRepository = creditCardTransactionRepository
+    this.creditCardRepository = creditCardRepository
   }
 
   async create(creditCardTransaction: CreditCardTransactions): Promise<CreditCardTransactions> {
     const creditCardTransactionRepository = await this.creditCardTransactionRepository.create(creditCardTransaction)
+    await this.addCreditCardTransactionAmount(creditCardTransaction.credit_card.id, creditCardTransaction.amount)
     return creditCardTransactionRepository
   }
 
@@ -25,7 +28,10 @@ export class CreditCardsTransactionService implements ICreditCardsTransactionSer
   }
 
   async delete(id: string): Promise<{ deleted: number } | null> {
-    return await this.creditCardTransactionRepository.delete(id)
+    const creditCardTransaction = await this.read(id)
+    await this.removeCreditCardTransactionAmount(creditCardTransaction.credit_card.id, creditCardTransaction.amount)
+    const creditCardTransactionDeleted = await this.creditCardTransactionRepository.delete(id)
+    return creditCardTransactionDeleted
   }
 
   async readAll(created_by: string): Promise<CreditCardTransactions[]> {
@@ -39,5 +45,17 @@ export class CreditCardsTransactionService implements ICreditCardsTransactionSer
       }
     })
     return CreditCardsTransactions
+  }
+
+  private async addCreditCardTransactionAmount(credit_card: string, amount: number): Promise<void> {
+    const creditCard = await this.creditCardRepository.read(credit_card)
+    creditCard.total_spent = creditCard.total_spent + amount
+    await this.creditCardRepository.update(creditCard)
+  }
+
+  private async removeCreditCardTransactionAmount(credit_card: string, amount: number): Promise<void> {
+    const creditCard = await this.creditCardRepository.read(credit_card)
+    creditCard.total_spent = creditCard.total_spent - amount
+    await this.creditCardRepository.update(creditCard)
   }
 }

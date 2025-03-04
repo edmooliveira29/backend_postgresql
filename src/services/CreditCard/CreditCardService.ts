@@ -35,6 +35,10 @@ export class CreditCardService implements ICreditCardService {
   }
 
   async delete(id: string): Promise<{ deleted: number } | null> {
+    const transaction = await this.creditCardTransactionRepository.readAllByCreditCard(id)
+    transaction.forEach(async transaction => {
+      await this.creditCardTransactionRepository.delete(transaction.id)
+    })
     return await this.creditCardRepository.delete(id)
   }
 

@@ -15,7 +15,13 @@ export class CreditCardsTransactionRepository implements ICreditCardTransactionR
   }
 
   async read(id: string): Promise<CreditCardTransactions> {
-    const creditCard = await this.creditCardTransactionRepository.findOneBy({ id })
+    const creditCard = await this.creditCardTransactionRepository.findOne(
+      {
+        where: { id },
+        relations: ["credit_card"],
+        select: ["created_at", 'updated_at', 'deleted_at', 'id', 'amount', 'transaction_date', 'description', 'created_by']
+      },
+    );
     return creditCard
   }
 
@@ -63,10 +69,10 @@ export class CreditCardsTransactionRepository implements ICreditCardTransactionR
     return CreditCardsTransactions
   }
 
-  readAllByCreditCard(credit_card_id: string): Promise<CreditCardTransactions[]> {
+  readAllByCreditCard(credit_card: string): Promise<CreditCardTransactions[]> {
     return this.creditCardTransactionRepository.find({
-      where: { credit_card_id: {id: credit_card_id} },
-      relations: ["credit_card_id"],
+      where: { credit_card: { id: credit_card } },
+      relations: ["credit_card"],
     });
   }
 }
