@@ -31,7 +31,7 @@ export class Revenues {
   @DeleteDateColumn({ type: "timestamptz", nullable: true })
   deleted_at: Date | null;
 
-  @ManyToOne(() => Users, (user) => user.revenues, { onDelete: "CASCADE" })
+  @ManyToOne(() => Users, (user) => user.revenues)
   @JoinColumn({ name: "created_by" })
   created_by: Users;
 }

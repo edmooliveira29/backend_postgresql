@@ -31,6 +31,7 @@ export class Createcreditcard1740923389842 implements MigrationInterface {
                     {
                         name: "total_spent",
                         type: "decimal",
+                        scale: 2,
                         isNullable: false,
                     },
                     {
@@ -63,8 +64,6 @@ export class Createcreditcard1740923389842 implements MigrationInterface {
                 columnNames: ["created_by"],
                 referencedColumnNames: ["id"],
                 referencedTableName: "users",
-                onDelete: "CASCADE",
-                onUpdate: "CASCADE"
             })
         );
     }

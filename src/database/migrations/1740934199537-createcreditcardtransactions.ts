@@ -25,11 +25,12 @@ export class CreditCardTransactions1740934199537 implements MigrationInterface {
                         name: "description",
                         type: "varchar",
                         length: "255",
-                        isNullable: false,
+                        isNullable: true,
                     },
                     {
                         name: "amount",
                         type: "decimal",
+                        scale: 2,
                         isNullable: false,
                     },
                     {
@@ -54,7 +55,7 @@ export class CreditCardTransactions1740934199537 implements MigrationInterface {
                         isNullable: false
                     },
                     {
-                        name: "credit_card_id",
+                        name: "credit_card",
                         type: "uuid",
                         isNullable: false
                     }
@@ -68,17 +69,15 @@ export class CreditCardTransactions1740934199537 implements MigrationInterface {
                 columnNames: ["created_by"],
                 referencedColumnNames: ["id"],
                 referencedTableName: "users",
-                onDelete: "CASCADE"
             })
         );
 
         await queryRunner.createForeignKey(
             "credit_card_transactions",
             new TableForeignKey({
-                columnNames: ["credit_card_id"],
+                columnNames: ["credit_card"],
                 referencedColumnNames: ["id"],
                 referencedTableName: "credit_cards",
-                onDelete: "CASCADE"
             })
         );
 
@@ -92,7 +91,7 @@ export class CreditCardTransactions1740934199537 implements MigrationInterface {
         );
     
         const creditCardForeignKey = table?.foreignKeys.find(
-            fk => fk.columnNames.includes("credit_card_id")
+            fk => fk.columnNames.includes("credit_card")
         );
     
         if (createdByForeignKey) {

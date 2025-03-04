@@ -60,8 +60,6 @@ export class Createrevenue1740775264708 implements MigrationInterface {
                 columnNames: ["created_by"],
                 referencedColumnNames: ["id"],
                 referencedTableName: "users",
-                onDelete: "CASCADE",
-                onUpdate: "CASCADE"
             })
         );
 
