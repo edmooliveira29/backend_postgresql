@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class Createexpensegroups1741114849291 implements MigrationInterface {
-    name = 'Createexpensegroups1741114849291'
+export class Createexpensegroups1741114839291 implements MigrationInterface {
+    name = 'Createexpensegroups1741114839291'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -47,11 +47,6 @@ export class Createexpensegroups1741114849291 implements MigrationInterface {
                         type: "uuid",
                         isNullable: false
                     },
-                    {
-                        name: "expense_id",
-                        type: "uuid",
-                        isNullable: false
-                    }
                 ]
             })
         )
@@ -63,14 +58,7 @@ export class Createexpensegroups1741114849291 implements MigrationInterface {
                 referencedTableName: "users",
             })
         )
-        await queryRunner.createForeignKey(
-            "expense_groups",
-            new TableForeignKey({
-                columnNames: ["expense_id"],
-                referencedColumnNames: ["id"],
-                referencedTableName: "expenses",
-            })
-        )
+        
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> { 
@@ -82,14 +70,6 @@ export class Createexpensegroups1741114849291 implements MigrationInterface {
 
         if (createdByForeignKey) {
             await queryRunner.dropForeignKey("expense_groups", createdByForeignKey);
-        }
-
-        const expenseForeignKey = table?.foreignKeys.find(
-            fk => fk.columnNames.includes("expenses")
-        )
-
-        if (expenseForeignKey) {
-            await queryRunner.dropForeignKey("expense_groups", expenseForeignKey);
         }
 
         await queryRunner.dropTable("expense_groups")

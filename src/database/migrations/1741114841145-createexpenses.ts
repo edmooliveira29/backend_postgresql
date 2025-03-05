@@ -68,6 +68,11 @@ export class Createexpenses1741114841145 implements MigrationInterface {
                         name: "created_by",
                         type: "uuid",
                         isNullable: false
+                    },
+                    {
+                        name: "expense_group_id",
+                        type: "uuid",
+                        isNullable: false
                     }
                 ]
             })
@@ -78,6 +83,15 @@ export class Createexpenses1741114841145 implements MigrationInterface {
                 columnNames: ["created_by"],
                 referencedColumnNames: ["id"],
                 referencedTableName: "users",
+            })
+        )
+
+        await queryRunner.createForeignKey(
+            "expenses",
+            new TableForeignKey({
+                columnNames: ["expense_group_id"],
+                referencedColumnNames: ["id"],
+                referencedTableName: "expense_groups",
             })
         )
     }
