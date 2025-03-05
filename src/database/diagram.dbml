@@ -1,6 +1,6 @@
 Table users {
   id int [pk]
-  username varchar
+  name varchar
   password varchar
   email varchar
   created_at timestamp
@@ -10,13 +10,13 @@ Table users {
 
 Table revenue {
   id int [pk]
-  created_by int [ref: > users.id]
   description varchar
   value decimal
   date date
   created_at timestamp
   updated_at timestamp
   deleted_at timestamp
+  created_by int [ref: > users.id]
 }
 
 Table expenses {
@@ -27,7 +27,7 @@ Table expenses {
   remaining_balance decimal
   due_date date
   spending_status ENUM('OK', 'ATTENTION', 'CRITICAL')
-  expenses_groups int [ref: > expense_groups.id]
+  expenses_groups_id int [ref: > expense_groups.id]
   created_by int [ref: > users.id] 
   created_at timestamp
   updated_at timestamp
@@ -48,7 +48,7 @@ Table credit_cards {
 Table credit_card_transactions {
   id int [pk]
   created_by int [ref: > users.id]
-  credit_card int [ref: > credit_cards.id]
+  credit_card_id int [ref: > credit_cards.id]
   description varchar  
   amount decimal   
   transaction_date timestamp
@@ -62,8 +62,8 @@ Table payments {
   paid_value decimal
   payment_date date
   created_by int [ref: > users.id]
-  expenses int [ref: - expenses.id]
-  payment_method int [ref: > payment_methods.id]
+  expense_id int [ref: > expenses.id]
+  payment_method_id int [ref: > payment_methods.id]
   created_at timestamp
   updated_at timestamp
   deleted_at timestamp
