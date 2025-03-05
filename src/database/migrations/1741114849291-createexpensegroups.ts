@@ -1,13 +1,12 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class CreditCardTransactions1740934199537 implements MigrationInterface {
-    name = 'CreateCreditCardTransactions1740934199537'
+export class Createexpensegroups1741114849291 implements MigrationInterface {
+    name = 'Createexpensegroups1741114849291'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
-
             new Table({
-                name: "credit_card_transactions",
+                name: "expense_groups",
                 columns: [
                     {
                         name: "id",
@@ -17,21 +16,15 @@ export class CreditCardTransactions1740934199537 implements MigrationInterface {
                         generationStrategy: "uuid",
                     },
                     {
-                        name: "transaction_date",
-                        type: "timestamptz",
-                        isNullable: false,
-                    },
-                    {
-                        name: "description",
+                        name: "name",
                         type: "varchar",
                         length: "255",
-                        isNullable: true,
+                        isNullable: false,
                     },
                     {
-                        name: "amount",
+                        name: "total_spent",
                         type: "decimal",
-                        scale: 2,
-                        isNullable: false,
+                        scale: 2
                     },
                     {
                         name: "created_at",
@@ -42,7 +35,7 @@ export class CreditCardTransactions1740934199537 implements MigrationInterface {
                     {
                         name: "updated_at",
                         type: "timestamptz",
-                        isNullable: true
+                        isNullable: true,
                     },
                     {
                         name: "deleted_at",
@@ -50,55 +43,56 @@ export class CreditCardTransactions1740934199537 implements MigrationInterface {
                         isNullable: true,
                     },
                     {
-                        name: "credit_card_id",
+                        name: "created_by",
+                        type: "uuid",
+                        isNullable: false
+                    },
+                    {
+                        name: "expense_id",
                         type: "uuid",
                         isNullable: false
                     }
                 ]
             })
-        );
-
+        )
         await queryRunner.createForeignKey(
-            "credit_card_transactions",
+            "expense_groups",
             new TableForeignKey({
                 columnNames: ["created_by"],
                 referencedColumnNames: ["id"],
                 referencedTableName: "users",
             })
-        );
-
+        )
         await queryRunner.createForeignKey(
-            "credit_card_transactions",
+            "expense_groups",
             new TableForeignKey({
-                columnNames: ["credit_card_id"],
+                columnNames: ["expense_id"],
                 referencedColumnNames: ["id"],
-                referencedTableName: "credit_cards",
+                referencedTableName: "expenses",
             })
-        );
-
+        )
     }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-        const table = await queryRunner.getTable("credit_card_transactions");
-    
+    public async down(queryRunner: QueryRunner): Promise<void> { 
+        const table = await queryRunner.getTable("expense_groups");
+
         const createdByForeignKey = table?.foreignKeys.find(
             fk => fk.columnNames.includes("created_by")
-        );
-    
-        const creditCardForeignKey = table?.foreignKeys.find(
-            fk => fk.columnNames.includes("credit_card")
-        );
-    
+        )
+
         if (createdByForeignKey) {
-            await queryRunner.dropForeignKey("credit_card_transactions", createdByForeignKey);
+            await queryRunner.dropForeignKey("expense_groups", createdByForeignKey);
         }
-    
-        if (creditCardForeignKey) {
-            await queryRunner.dropForeignKey("credit_card_transactions", creditCardForeignKey);
+
+        const expenseForeignKey = table?.foreignKeys.find(
+            fk => fk.columnNames.includes("expenses")
+        )
+
+        if (expenseForeignKey) {
+            await queryRunner.dropForeignKey("expense_groups", expenseForeignKey);
         }
-    
-        await queryRunner.dropTable("credit_card_transactions");
+
+        await queryRunner.dropTable("expense_groups")
     }
-    
 
 }

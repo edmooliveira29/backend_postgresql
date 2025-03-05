@@ -1,0 +1,113 @@
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
+
+export class Createpayments1741114899739 implements MigrationInterface {
+    name = 'Createpayments1741114899739'
+
+    public async up(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.createTable(
+            new Table({
+                name: "payments",
+                columns: [
+                    {
+                        name: "id",
+                        type: "uuid",
+                        isPrimary: true,
+                        isGenerated: true,
+                        generationStrategy: "uuid",
+                    },
+                    {
+                        name: "paid_value",
+                        type: "decimal",
+                        scale: 2
+                    },
+                    {
+                        name: "payment_date",
+                        type: "timestamptz",
+                        isNullable: true,
+                    },
+                    {
+                        name: "created_at",
+                        type: "timestamptz",
+                        isNullable: false,
+                        default: "now()",
+                    },
+                    {
+                        name: "updated_at",
+                        type: "timestamptz",
+                        isNullable: true,
+                    },
+                    {
+                        name: "deleted_at",
+                        type: "timestamptz",
+                        isNullable: true,
+                    },
+                    {
+                        name: "created_by",
+                        type: "uuid",
+                        isNullable: false
+                    },
+                    {
+                        name: "payment_method_id",
+                        type: "uuid",
+                        isNullable: false
+                    },
+                    {
+                        name: "expense_id",
+                        type: "uuid",
+                        isNullable: false
+                    }
+                ]
+            })
+        )
+        await queryRunner.createForeignKeys(
+            "payments",
+            [
+                new TableForeignKey({
+                    columnNames: ["created_by"],
+                    referencedColumnNames: ["id"],
+                    referencedTableName: "users",
+                }),
+                new TableForeignKey({
+                    columnNames: ["payment_method_id"],
+                    referencedColumnNames: ["id"],
+                    referencedTableName: "payment_methods",
+                }),
+                new TableForeignKey({
+                    columnNames: ["expense_id"],
+                    referencedColumnNames: ["id"],
+                    referencedTableName: "expenses",
+                })
+            ]
+        )
+    }
+
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        const table = await queryRunner.getTable("payments");
+
+        const createdByForeignKey = table?.foreignKeys.find(
+            fk => fk.columnNames.includes("created_by")
+        )
+
+        if (createdByForeignKey) {
+            await queryRunner.dropForeignKey("payments", createdByForeignKey);
+        }
+
+        const paymentMethodForeignKey = table?.foreignKeys.find(
+            fk => fk.columnNames.includes("payments_method")
+        )
+
+        if (paymentMethodForeignKey) {
+            await queryRunner.dropForeignKey("payments", paymentMethodForeignKey);
+        }
+
+        const expenseForeignKey = table?.foreignKeys.find(
+            fk => fk.columnNames.includes("expense")
+        )
+
+        if (expenseForeignKey) {
+            await queryRunner.dropForeignKey("payments", expenseForeignKey);
+        }
+
+        await queryRunner.dropTable("payments")
+    }
+}
