@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Users } from './Users';
 import { ExpenseGroups } from './ExpenseGroups';
+import { Payments } from './Payments';
 
 enum spending_status {
   OK = 'OK',
@@ -65,11 +66,15 @@ export class Expenses {
   @DeleteDateColumn({ type: "timestamptz", nullable: true })
   deleted_at: Date | null
 
-  @ManyToOne(() => Users, (user) => user.credit_cards)
+  @ManyToOne(() => Users, (user) => user.expenses)
   @JoinColumn({ name: "created_by" })
   created_by: Users
 
   @ManyToOne(() => ExpenseGroups, (expense_groups) => expense_groups.expenses)
-  @JoinColumn({ name: "expense_group" })
-  expense_group: ExpenseGroups
+  @JoinColumn({ name: "expense_group_id" })
+  expense_group_id: ExpenseGroups
+
+  @OneToMany (() => Payments, (payment) => payment.expense_id)
+  @JoinColumn({ name: "payment_id" })
+  payment_id: Payments[]
 }

@@ -32,11 +32,11 @@ export class CreditCardTransactions {
   @DeleteDateColumn({ type: "timestamptz", nullable: true })
   deleted_at: Date | null
 
-  @ManyToOne(() => Users, (user) => user.credit_cards)
+  @ManyToOne(() => Users, (user) => user.credit_card_transactions)
   @JoinColumn({ name: "created_by" })
   created_by: Users
 
   @ManyToOne(() => CreditCards, (credit_card) => credit_card.transactions)
-  @JoinColumn({ name: "credit_card" })
-  credit_card: CreditCards
+  @JoinColumn({ name: "credit_card_id" })
+  credit_card_id: CreditCards
 }

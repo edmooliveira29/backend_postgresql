@@ -8,8 +8,8 @@ import {
     OneToMany,
     DeleteDateColumn
 } from "typeorm";
-import { Revenues } from './Revenues';
-import { CreditCards } from './CreditCards';
+
+import * as models from "./index"
 
 @Entity()
 export class Users {
@@ -33,9 +33,24 @@ export class Users {
     @DeleteDateColumn({ type: "timestamptz", nullable: true })
     deleted_at: Date | null;
 
-    @OneToMany(() => Revenues, (revenue) => revenue.created_by)
-    revenues: Revenues[];
+    @OneToMany(() => models.Revenues, (revenue) => revenue.created_by)
+    revenues: models.Revenues[];
 
-    @OneToMany(() => CreditCards, (credit_card) => credit_card.created_by)
-    credit_cards: CreditCards[]
+    @OneToMany(() => models.CreditCards, (credit_card) => credit_card.created_by)
+    credit_cards: models.CreditCards[]
+
+    @OneToMany(() => models.CreditCardTransactions, (credit_card_transaction) => credit_card_transaction)
+    credit_card_transactions: models.CreditCardTransactions
+
+    @OneToMany(() => models.ExpenseGroups, (expense_group) => expense_group.created_by)
+    expense_groups: models.ExpenseGroups[]
+
+    @OneToMany(() => models.Expenses, (expense) => expense.created_by)
+    expenses: models.Expenses[]
+
+    @OneToMany(() => models.PaymentMethods, (payment_method) => payment_method.created_by)
+    payment_methods: models.PaymentMethods
+
+    @OneToMany(() => models.Payments, (payment) => payment.created_by)
+    payments: models.Payments
 }

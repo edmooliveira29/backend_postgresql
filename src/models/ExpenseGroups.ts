@@ -29,10 +29,10 @@ export class ExpenseGroups {
   @DeleteDateColumn({ type: "timestamptz", nullable: true })
   deleted_at: Date | null
 
-  @ManyToOne(() => Users, (user) => user.credit_cards)
+  @ManyToOne(() => Users, (user) => user.expense_groups)
   @JoinColumn({ name: "created_by" })
   created_by: Users
 
-  @OneToMany(() => Expenses, (expense) => expense.expense_group)
+  @OneToMany(() => Expenses, (expense) => expense.expense_group_id)
   expenses: Expenses[]
 }

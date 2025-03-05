@@ -44,6 +44,6 @@ export class CreditCards {
   @JoinColumn({ name: "created_by" })
   created_by: Users
 
-  @OneToMany(() => CreditCardTransactions, (transaction) => transaction.credit_card)
+  @OneToMany(() => CreditCardTransactions, (transaction) => transaction.credit_card_id)
   transactions: CreditCardTransactions[]
 }
