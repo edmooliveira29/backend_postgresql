@@ -13,7 +13,7 @@ export class CreditCardsTransactionService implements ICreditCardsTransactionSer
 
   async create(creditCardTransaction: CreditCardTransactions): Promise<CreditCardTransactions> {
     const creditCardTransactionRepository = await this.creditCardTransactionRepository.create(creditCardTransaction)
-    await this.addCreditCardTransactionAmount(creditCardTransaction.credit_card.id, creditCardTransaction.amount)
+    await this.addCreditCardTransactionAmount(creditCardTransaction.credit_card_id.id, creditCardTransaction.amount)
     return creditCardTransactionRepository
   }
 
@@ -29,7 +29,7 @@ export class CreditCardsTransactionService implements ICreditCardsTransactionSer
 
   async delete(id: string): Promise<{ deleted: number } | null> {
     const creditCardTransaction = await this.read(id)
-    await this.removeCreditCardTransactionAmount(creditCardTransaction.credit_card.id, creditCardTransaction.amount)
+    await this.removeCreditCardTransactionAmount(creditCardTransaction.credit_card_id.id, creditCardTransaction.amount)
     const creditCardTransactionDeleted = await this.creditCardTransactionRepository.delete(id)
     return creditCardTransactionDeleted
   }

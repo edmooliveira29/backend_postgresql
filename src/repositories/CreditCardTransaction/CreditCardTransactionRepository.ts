@@ -71,7 +71,7 @@ export class CreditCardsTransactionRepository implements ICreditCardTransactionR
 
   readAllByCreditCard(credit_card: string): Promise<CreditCardTransactions[]> {
     return this.creditCardTransactionRepository.find({
-      where: { credit_card: { id: credit_card } },
+      where: { credit_card_id: { id: credit_card } },
       relations: ["credit_card"],
     });
   }
