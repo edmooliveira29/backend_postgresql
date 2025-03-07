@@ -10,8 +10,8 @@ export class PaymentsRepository implements IPaymentRepository {
     this.paymentRepository = conection.getRepository(Payments);
   }
 
-  async create(Payment: Payments): Promise<Payments> {
-    return await this.paymentRepository.save(Payment);
+  async create(payment: Payments): Promise<Payments> {
+    return await this.paymentRepository.save(payment);
   }
 
   async read(id: string): Promise<Payments> {

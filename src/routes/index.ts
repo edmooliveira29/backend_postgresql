@@ -6,6 +6,7 @@ import creditCard from './creditCard';
 import creditCardTransaction from './creditCardTransaction';
 import expenseGroup from './expenseGroup';
 import expense from './expense';
+import payment from './payment';
 
 export default (app: Express) => {
   app.use(express.json());
@@ -16,4 +17,5 @@ export default (app: Express) => {
   app.use(creditCardTransaction)
   app.use(expenseGroup)
   app.use(expense)
+  app.use(payment)
 };

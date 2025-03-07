@@ -24,24 +24,27 @@ export class Createexpenses1741114841145 implements MigrationInterface {
                     {
                         name: "value",
                         type: "decimal",
-                        scale: 2
+                        precision: 10,
+                        scale: 2,
                     },
                     {
                         name: "limit",
                         type: "decimal",
-                        scale: 2
+                        precision: 10,
+                        scale: 2,
                     },
                     {
                         name: "remaining_balance",
                         type: "decimal",
+                        precision: 10,
                         scale: 2,
-                        isNullable: false,
+                        isNullable: true,
                     },
                     {
                         name: "spending_status",
                         type: "enum",
                         enum: ["OK", "ATTENTION", "CRITICAL"],
-                        isNullable: false,
+                        isNullable: true,
                     },
                     {
                         name: "due_date",
@@ -67,55 +70,55 @@ export class Createexpenses1741114841145 implements MigrationInterface {
                     {
                         name: "created_by",
                         type: "uuid",
-                        isNullable: false
+                        isNullable: false,
                     },
                     {
                         name: "expense_group_id",
                         type: "uuid",
-                        isNullable: false
+                        isNullable: false,
                     }
-                ]
+                ],
             })
-        )
+        );
+
         await queryRunner.createForeignKey(
             "expenses",
             new TableForeignKey({
                 columnNames: ["created_by"],
                 referencedColumnNames: ["id"],
-                referencedTableName: "users",
+                referencedTableName: "users"
             })
-        )
+        );
 
         await queryRunner.createForeignKey(
             "expenses",
             new TableForeignKey({
                 columnNames: ["expense_group_id"],
                 referencedColumnNames: ["id"],
-                referencedTableName: "expense_groups",
+                referencedTableName: "expense_groups"
             })
-        )
+        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         const table = await queryRunner.getTable("expenses");
 
-        const createdByForeignKey = table?.foreignKeys.find(
-            fk => fk.columnNames.includes("created_by")
-        )
+        if (table) {
+            const createdByForeignKey = table.foreignKeys.find(
+                fk => fk.columnNames.includes("created_by")
+            );
+            if (createdByForeignKey) {
+                await queryRunner.dropForeignKey("expenses", createdByForeignKey);
+            }
 
-        if (createdByForeignKey) {
-            await queryRunner.dropForeignKey("expenses", createdByForeignKey);
+            const expenseGroupForeignKey = table.foreignKeys.find(
+                fk => fk.columnNames.includes("expense_group_id")
+            );
+            if (expenseGroupForeignKey) {
+                await queryRunner.dropForeignKey("expenses", expenseGroupForeignKey);
+            }
         }
 
-        const expenseGroupForeignKey = table?.foreignKeys.find(
-            fk => fk.columnNames.includes("expense_group")
-        )
-
-        if (expenseGroupForeignKey) {
-            await queryRunner.dropForeignKey("expenses", expenseGroupForeignKey);
-        }
-
-        await queryRunner.dropTable("expenses")
+        await queryRunner.dropTable("expenses");
     }
-
 }

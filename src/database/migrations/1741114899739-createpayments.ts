@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
 export class Createpayments1741114899739 implements MigrationInterface {
-    name = 'Createpayments1741114899739'
+    name = 'Createpayments1741114899739';
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -18,8 +18,9 @@ export class Createpayments1741114899739 implements MigrationInterface {
                     {
                         name: "paid_value",
                         type: "decimal",
-                        isNullable: true,
-                        scale: 2
+                        precision: 10,
+                        scale: 2,
+                        isNullable: false,
                     },
                     {
                         name: "payment_date",
@@ -29,13 +30,13 @@ export class Createpayments1741114899739 implements MigrationInterface {
                     {
                         name: "payment_status",
                         type: "enum",
-                        enum: ["PAID", "LATE", "TO PAY"],
+                        enum: ["PAID", "LATE", "TO_PAY"],
                         isNullable: false,
                     },
                     {
                         name: "observations",
                         type: "varchar",
-                        isNullable: true
+                        isNullable: true,
                     },
                     {
                         name: "created_at",
@@ -56,16 +57,17 @@ export class Createpayments1741114899739 implements MigrationInterface {
                     {
                         name: "created_by",
                         type: "uuid",
-                        isNullable: false
+                        isNullable: false,
                     },
                     {
                         name: "expense_id",
                         type: "uuid",
-                        isNullable: false
+                        isNullable: false,
                     }
                 ]
             })
-        )
+        );
+
         await queryRunner.createForeignKeys(
             "payments",
             [
@@ -80,7 +82,7 @@ export class Createpayments1741114899739 implements MigrationInterface {
                     referencedTableName: "expenses",
                 })
             ]
-        )
+        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
@@ -88,28 +90,20 @@ export class Createpayments1741114899739 implements MigrationInterface {
 
         const createdByForeignKey = table?.foreignKeys.find(
             fk => fk.columnNames.includes("created_by")
-        )
+        );
 
         if (createdByForeignKey) {
             await queryRunner.dropForeignKey("payments", createdByForeignKey);
         }
 
-        const paymentMethodForeignKey = table?.foreignKeys.find(
-            fk => fk.columnNames.includes("payments_method")
-        )
-
-        if (paymentMethodForeignKey) {
-            await queryRunner.dropForeignKey("payments", paymentMethodForeignKey);
-        }
-
         const expenseForeignKey = table?.foreignKeys.find(
-            fk => fk.columnNames.includes("expense")
-        )
+            fk => fk.columnNames.includes("expense_id")
+        );
 
         if (expenseForeignKey) {
             await queryRunner.dropForeignKey("payments", expenseForeignKey);
         }
 
-        await queryRunner.dropTable("payments")
+        await queryRunner.dropTable("payments");
     }
 }

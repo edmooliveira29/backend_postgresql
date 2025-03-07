@@ -40,7 +40,7 @@ export class Users {
     credit_cards: models.CreditCards[]
 
     @OneToMany(() => models.CreditCardTransactions, (credit_card_transaction) => credit_card_transaction)
-    credit_card_transactions: models.CreditCardTransactions
+    credit_card_transactions: models.CreditCardTransactions[]
 
     @OneToMany(() => models.ExpenseGroups, (expense_group) => expense_group.created_by)
     expense_groups: models.ExpenseGroups[]
@@ -49,5 +49,5 @@ export class Users {
     expenses: models.Expenses[]
 
     @OneToMany(() => models.Payments, (payment) => payment.created_by)
-    payments: models.Payments
+    payments: models.Payments[]
 }
