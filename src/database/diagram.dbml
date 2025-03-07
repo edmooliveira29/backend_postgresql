@@ -63,17 +63,10 @@ Table payments {
   payment_date date
   created_by int [ref: > users.id]
   expense_id int [ref: > expenses.id]
-  payment_method_id int [ref: > payment_methods.id]
+ payment_status ENUM('PAID', 'LATE', 'TO PAY')
   created_at timestamp
   updated_at timestamp
   deleted_at timestamp
-}
-
-Table payment_methods {
-  id int [pk]
-  created_by int [ref: > users.id] 
-  name varchar
-  description varchar
 }
 
 Table expense_groups {

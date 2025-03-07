@@ -1,8 +1,12 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Users } from './Users';
-import { PaymentMethods } from './PaymentMethods';
 import { Expenses } from './Expenses';
 
+enum payment_status {
+  OK = 'OK',
+  ATTENTION = 'ATTENTION',
+  CRITICAL = 'CRITICAL'
+}
 
 @Entity()
 export class Payments {
@@ -19,8 +23,17 @@ export class Payments {
   })
   paid_value: number;
 
-  @Column({ type: "timestamptz" })
+  @Column({ type: "timestamptz", nullable: true })
   payment_date: Date | null
+
+  @Column({
+    type: "enum",
+    enum: payment_status,
+  })
+  payment_status: payment_status
+
+  @Column({ type: "varchar", nullable: true })
+  observations: string
 
   @CreateDateColumn({ type: "timestamptz" })
   created_at: Date | null
@@ -34,10 +47,6 @@ export class Payments {
   @ManyToOne(() => Users, (user) => user.payments)
   @JoinColumn({ name: "created_by" })
   created_by: Users
-
-  @ManyToOne(() => PaymentMethods, (payment_methods) => payment_methods.payments)
-  @JoinColumn({ name: "payment_method_id" })
-  payment_method_id: PaymentMethods
 
   @ManyToOne(() => Expenses, (expense) => expense.payment_id)
   @JoinColumn({ name: "expense_id" })

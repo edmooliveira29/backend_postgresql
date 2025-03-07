@@ -47,10 +47,30 @@ POSTGRES_DATABASE_DEVELOPMENT='db_sql_dev'
 
 ### 3️⃣ **Subir o banco de dados com Docker**
 
+Instalar Docker 
+```
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+
+ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
 Se você não tiver o PostgreSQL instalado, pode rodá-lo via Docker:
 
+
 ```
-docker run --name postgres_dev -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=db_sql_dev -p 5432:5432 -d postgres
+docker run --name postgres_dev -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=db_sql_dev -p 5432:5432 -d postgres
 ```
 
 > Para obter o IP do container Docker:

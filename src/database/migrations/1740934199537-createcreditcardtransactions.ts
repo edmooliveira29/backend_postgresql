@@ -53,6 +53,11 @@ export class CreditCardTransactions1740934199537 implements MigrationInterface {
                         name: "credit_card_id",
                         type: "uuid",
                         isNullable: false
+                    },
+                    {
+                        name: "created_by",
+                        type: "uuid",
+                        isNullable: false
                     }
                 ]
             })

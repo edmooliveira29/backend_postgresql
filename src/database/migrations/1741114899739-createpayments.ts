@@ -18,12 +18,24 @@ export class Createpayments1741114899739 implements MigrationInterface {
                     {
                         name: "paid_value",
                         type: "decimal",
+                        isNullable: true,
                         scale: 2
                     },
                     {
                         name: "payment_date",
                         type: "timestamptz",
                         isNullable: true,
+                    },
+                    {
+                        name: "payment_status",
+                        type: "enum",
+                        enum: ["PAID", "LATE", "TO PAY"],
+                        isNullable: false,
+                    },
+                    {
+                        name: "observations",
+                        type: "varchar",
+                        isNullable: true
                     },
                     {
                         name: "created_at",
@@ -47,11 +59,6 @@ export class Createpayments1741114899739 implements MigrationInterface {
                         isNullable: false
                     },
                     {
-                        name: "payment_method_id",
-                        type: "uuid",
-                        isNullable: false
-                    },
-                    {
                         name: "expense_id",
                         type: "uuid",
                         isNullable: false
@@ -66,11 +73,6 @@ export class Createpayments1741114899739 implements MigrationInterface {
                     columnNames: ["created_by"],
                     referencedColumnNames: ["id"],
                     referencedTableName: "users",
-                }),
-                new TableForeignKey({
-                    columnNames: ["payment_method_id"],
-                    referencedColumnNames: ["id"],
-                    referencedTableName: "payment_methods",
                 }),
                 new TableForeignKey({
                     columnNames: ["expense_id"],

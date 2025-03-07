@@ -48,9 +48,6 @@ export class Users {
     @OneToMany(() => models.Expenses, (expense) => expense.created_by)
     expenses: models.Expenses[]
 
-    @OneToMany(() => models.PaymentMethods, (payment_method) => payment_method.created_by)
-    payment_methods: models.PaymentMethods
-
     @OneToMany(() => models.Payments, (payment) => payment.created_by)
     payments: models.Payments
 }
