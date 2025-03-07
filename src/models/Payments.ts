@@ -3,9 +3,9 @@ import { Users } from './Users';
 import { Expenses } from './Expenses';
 
 enum payment_status {
-  OK = 'OK',
-  ATTENTION = 'ATTENTION',
-  CRITICAL = 'CRITICAL'
+  PAID = 'PAID',
+  LATE = 'LATE',
+  TO_PAY = 'TO PAY'
 }
 
 @Entity()
