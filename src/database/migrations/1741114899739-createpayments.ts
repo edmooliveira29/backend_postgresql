@@ -16,11 +16,14 @@ export class Createpayments1741114899739 implements MigrationInterface {
                         generationStrategy: "uuid",
                     },
                     {
+                        name: "installment",
+                        type: "integer"
+                    },
+                    {
                         name: "paid_value",
                         type: "decimal",
                         precision: 10,
                         scale: 2,
-                        isNullable: false,
                     },
                     {
                         name: "payment_date",

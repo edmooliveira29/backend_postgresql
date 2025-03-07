@@ -66,4 +66,21 @@ export class PaymentsRepository implements IPaymentRepository {
     })
     return Payments
   }
+
+  async getByExpenseId(expense_id:string): Promise<Payments[]> {
+    if (expense_id === undefined) {
+      throw new Error('expense_id is undefined')
+    }
+
+    const payments = await this.paymentRepository.find({
+      where: {
+        expense_id:{
+          id: expense_id
+        }
+      },
+      relations: ['expense_id'],
+    })
+    return payments
+  }
+
 }

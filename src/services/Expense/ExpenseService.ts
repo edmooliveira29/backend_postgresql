@@ -2,14 +2,21 @@ import { IExpenseService } from './Interface/IExpenseService';
 import { Expenses } from '../../models';
 import { IExpenseRepository } from '../../repositories/Expense/interface/IExpenseRepository';
 import { IExpenseGroupRepository } from '../../repositories/ExpenseGroup/interface/IExpenseGroupRepository';
+import { IPaymentRepository } from '../../repositories/Payment/interface/IPaymentRepository';
 
 export class ExpenseService implements IExpenseService {
   private expenseRepository: IExpenseRepository
   private expenseGroupRepository: IExpenseGroupRepository
+  private paymentRepository: IPaymentRepository
 
-  constructor(expenseRepository: IExpenseRepository, expenseGroupRepository: IExpenseGroupRepository) {
+  constructor(
+    expenseRepository: IExpenseRepository,
+    expenseGroupRepository: IExpenseGroupRepository,
+    paymentRepository: IPaymentRepository
+  ) {
     this.expenseRepository = expenseRepository
     this.expenseGroupRepository = expenseGroupRepository
+    this.paymentRepository = paymentRepository
   }
 
   async create(expense: Expenses): Promise<Expenses> {
@@ -20,11 +27,17 @@ export class ExpenseService implements IExpenseService {
 
   async read(id: string): Promise<Expenses> {
     const expense = await this.expenseRepository.read(id)
+    const payment = await this.paymentRepository.getByExpenseId(id)
     const expenseUpdated = await this.expenseRepository.update(expense)
+    expenseUpdated.payments = payment
+    expenseUpdated.payments.forEach(payment =>{
+      delete payment.expense_id
+    })
     delete expenseUpdated.created_by.password
     delete expenseUpdated.created_by.created_at
     delete expenseUpdated.created_by.updated_at
     delete expenseUpdated.created_by.deleted_at
+
     return expenseUpdated
   }
 
@@ -35,7 +48,6 @@ export class ExpenseService implements IExpenseService {
 
   async delete(id: string): Promise<{ deleted: number } | null> {
     const expense = await this.read(id)
-    console.log(expense)
     await this.removeValueInExpenseGroup(expense.expense_group_id.id, expense.value)
     return await this.expenseRepository.delete(id)
   }

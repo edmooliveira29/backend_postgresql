@@ -6,4 +6,5 @@ export interface IPaymentRepository {
   update(payment: Payments): Promise<Payments | null>
   delete(id: string): Promise<{ deleted: number } | null>
   readAll(created_by: string): Promise<Payments[]>
+  getByExpenseId(expense_id: string): Promise<Payments[]>
 }

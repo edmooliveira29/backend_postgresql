@@ -4,12 +4,14 @@ import { verifyToken } from '../utils/access-token';
 import { ExpenseService } from '../services/Expense/ExpenseService';
 import { ExpenseController } from '../controllers/ExpenseController';
 import { ExpenseGroupRepository } from '../repositories/ExpenseGroup/ExpenseGroupRepository';
+import { PaymentsRepository } from '../repositories/Payment/PaymentRepository';
 
 const expense: Router = Router();
 
 const expenseRepository = new ExpensesRepository()
 const expenseGroupRepository = new ExpenseGroupRepository()
-const expenseService = new ExpenseService(expenseRepository, expenseGroupRepository)
+const paymentRepository = new PaymentsRepository()
+const expenseService = new ExpenseService(expenseRepository, expenseGroupRepository, paymentRepository)
 const expenseController = new ExpenseController(expenseService)
 
 expense.post("/expense", verifyToken,(req, res) => expenseController.create(req, res));

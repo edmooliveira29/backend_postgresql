@@ -32,6 +32,8 @@ export class Payments {
     enum: payment_status,
   })
   payment_status: payment_status;
+  @Column({type: 'integer'})
+  installment: number
 
   @Column({ type: "varchar", nullable: true })
   observations: string;
