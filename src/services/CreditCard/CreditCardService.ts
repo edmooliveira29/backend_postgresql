@@ -1,4 +1,4 @@
-import { ICreditCardService } from './Interface/IRepositoryCreditCard';
+import { ICreditCardService } from './Interface/ICreditCardService';
 import { CreditCards } from '../../models';
 import { ICreditCardRepository } from '../../repositories/CreditCard/interface/ICreditCardRepository';
 

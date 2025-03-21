@@ -1,4 +1,4 @@
-import { IRevenueService } from './Interface/IRepositoryService';
+import { IRevenueService } from './Interface/IRevenueService';
 import { Revenues } from '../../models';
 import { IRevenueRepository } from '../../repositories/Revenue/interface/IRevenueRepository';
 

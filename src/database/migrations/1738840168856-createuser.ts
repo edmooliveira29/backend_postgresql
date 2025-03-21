@@ -45,7 +45,7 @@ export class Createuser1738840168856 implements MigrationInterface {
                     {
                         name: "updated_at",
                         type: "timestamptz",
-                        isNullable: false,
+                        isNullable: true,
                     },
                     {
                         name: "deleted_at",

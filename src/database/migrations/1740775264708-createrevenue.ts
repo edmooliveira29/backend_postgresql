@@ -39,7 +39,7 @@ export class Createrevenue1740775264708 implements MigrationInterface {
                     {
                         name: "updated_at",
                         type: "timestamptz",
-                        isNullable: false,
+                        isNullable: true,
                     },
                     {
                         name: "deleted_at",

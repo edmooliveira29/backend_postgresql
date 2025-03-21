@@ -9,20 +9,33 @@ export class CreditCards {
   @Column({ length: 255 })
   name: string;
 
-  @Column({ length: 255 })
-  limit: string;
+  @Column({
+    type: "decimal",
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => Number(value),
+    }
+  })
+  limit: number;
 
-  @Column({ length: 255 })
-  total_spent: string;
+  @Column({
+    type: "decimal",
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => Number(value),
+    }
+  })
+  total_spent: number;
 
-  @UpdateDateColumn({ type: "timestamptz" })
+
+  @CreateDateColumn({ type: "timestamptz" })
+  created_at: Date | null
+
+  @UpdateDateColumn({ type: "timestamptz", nullable: true })
   updated_at: Date | null
 
   @DeleteDateColumn({ type: "timestamptz", nullable: true })
   deleted_at: Date | null
-
-  @CreateDateColumn({ type: "timestamptz" })
-  created_at: Date | null
 
   @ManyToOne(() => Users, (user) => user.credit_cards, { onDelete: "CASCADE" })
   @JoinColumn({ name: "created_by" })

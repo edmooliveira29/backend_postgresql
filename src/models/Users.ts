@@ -28,7 +28,7 @@ export class Users {
     @CreateDateColumn({ type: "timestamptz" })
     created_at: Date | null;
 
-    @UpdateDateColumn({ type: "timestamptz" })
+    @UpdateDateColumn({ type: "timestamptz", nullable: true })
     updated_at: Date | null;
 
     @DeleteDateColumn({ type: "timestamptz", nullable: true })

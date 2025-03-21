@@ -1,18 +1,17 @@
 import { Request, Response } from "express";
-import { QueryFailedError } from "typeorm";
-import { IRevenueService } from '../services/Revenue/Interface/IRevenueService';
+import { ICreditCardService } from '../services/CreditCard/Interface/ICreditCardService';
 
-export class RevenueController {
-  private revenueService: IRevenueService;
+export class CreditCardController {
+  private CreditCardService: ICreditCardService;
 
-  constructor(revenueService: IRevenueService) {
-    this.revenueService = revenueService
+  constructor(CreditCardService: ICreditCardService) {
+    this.CreditCardService = CreditCardService
   }
 
   async create(request: Request, response: Response): Promise<void> {
     try {
-      const revenue = await this.revenueService.create(request.body);
-      response.status(201).json(revenue);
+      const CreditCard = await this.CreditCardService.create(request.body);
+      response.status(201).json(CreditCard);
     } catch (err) {
       response.status(500).json({ error: err.message });
     }
@@ -21,11 +20,11 @@ export class RevenueController {
   async read(request: Request, response: Response): Promise<void> {
     try {
       const { id } = request.params;
-      const revenue = await this.revenueService.read(id);
-      if (!revenue) {
-        response.status(404).json({ message: "Receita nao encontrada" })
+      const CreditCard = await this.CreditCardService.read(id);
+      if (!CreditCard) {
+        response.status(404).json({ message: "Cartão de crédito não encontrado" })
       } else {
-        response.json(revenue);
+        response.json(CreditCard);
       }
     } catch (err) {
       response.status(500).json({ error: err.message });
@@ -34,14 +33,14 @@ export class RevenueController {
 
   async update(request: Request, response: Response): Promise<void> {
     try {
-      const revenue = await this.revenueService.update(request.body);
-      if (!revenue) {
+      const CreditCard = await this.CreditCardService.update(request.body);
+      if (!CreditCard) {
         response.status(404).json({ message: "Receita não encontrada" })
       } else {
 
         response.json({
           message: "Receita atualizada com sucesso!",
-          revenue
+          CreditCard
         });
       }
     } catch (err) {
@@ -52,8 +51,8 @@ export class RevenueController {
   async delete(request: Request, response: Response): Promise<void> {
     try {
       const { id } = request.params;
-      const revenueDeleted = await this.revenueService.delete(id);
-      if (!revenueDeleted) {
+      const CreditCardDeleted = await this.CreditCardService.delete(id);
+      if (!CreditCardDeleted) {
         response.status(404).json({ message: "Receita nao encontrada" })
       } else {
         response.json({
@@ -68,8 +67,8 @@ export class RevenueController {
 
   async readAll(request: Request, response: Response): Promise<void> {
     try {
-      const revenues = await this.revenueService.readAll();
-      response.json(revenues);
+      const CreditCards = await this.CreditCardService.readAll();
+      response.json(CreditCards);
     } catch (err) {
       response.status(500).json({ error: err.message });
     }
